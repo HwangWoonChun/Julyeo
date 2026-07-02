@@ -32,10 +32,10 @@ struct ResultView: View {
                 VStack(spacing: JTheme.spaceM) {
                     switch phase {
                     case .extracting:
-                        loadingView(message: inputType == .image ? "텍스트 인식 중..." : "텍스트 준비 중...")
+                        loadingView(message: inputType == .image ? String(localized: "result.loading.extracting.image") : String(localized: "result.loading.extracting.audio"))
 
                     case .summarizing:
-                        loadingView(message: "AI가 요약하는 중...")
+                        loadingView(message: String(localized: "result.loading.summarizing"))
 
                     case .done:
                         if let result {
@@ -49,18 +49,18 @@ struct ResultView: View {
                 .padding(JTheme.spaceM)
             }
         }
-        .navigationTitle("요약 결과")
+        .navigationTitle(String(localized: "result.title"))
         .navigationBarTitleDisplayMode(.inline)
-        .alert("요약 실패", isPresented: $showErrorAlert) {
-            Button("다시 시도") { Task { await process() } }
-            Button("닫기", role: .cancel) { dismiss() }
+        .alert(String(localized: "result.error.title"), isPresented: $showErrorAlert) {
+            Button(String(localized: "result.error.retry")) { Task { await process() } }
+            Button(String(localized: "common.close"), role: .cancel) { dismiss() }
         } message: {
-            Text(errorMessage ?? "오류가 발생했습니다. 다시 시도해주세요.")
+            Text(errorMessage ?? String(localized: "result.error.fallback"))
         }
         .toolbar {
             if phase == .done && !saved {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("저장") { saveRecord() }
+                    Button(String(localized: "result.action.save")) { saveRecord() }
                         .tint(JTheme.accent)
                 }
             }
@@ -85,7 +85,7 @@ struct ResultView: View {
             VStack(spacing: 6) {
                 Text(message)
                     .font(JTheme.headline())
-                Text(phase == .extracting ? "잠시만 기다려주세요" : "Foundation Models 처리 중...")
+                Text(phase == .extracting ? String(localized: "result.loading.wait") : String(localized: "result.loading.processing"))
                     .font(JTheme.caption())
                     .foregroundStyle(.secondary)
             }
@@ -104,7 +104,7 @@ struct ResultView: View {
             // 요약
             JCard {
                 VStack(alignment: .leading, spacing: JTheme.spaceXS) {
-                    JSectionLabel(icon: "text.alignleft", text: "요약")
+                    JSectionLabel(icon: "text.alignleft", text: String(localized: "result.section.summary"))
                     Text(result.summary)
                         .font(JTheme.body())
                 }
@@ -114,7 +114,7 @@ struct ResultView: View {
             if !result.keyPoints.isEmpty {
                 JCard {
                     VStack(alignment: .leading, spacing: JTheme.spaceXS) {
-                        JSectionLabel(icon: "list.bullet", text: "핵심 포인트")
+                        JSectionLabel(icon: "list.bullet", text: String(localized: "result.section.keypoints"))
                         ForEach(result.keyPoints, id: \.self) { point in
                             HStack(alignment: .top, spacing: 8) {
                                 Text("•")
@@ -129,7 +129,7 @@ struct ResultView: View {
 
             // 원문 보기
             JCard {
-                DisclosureGroup("원문 보기") {
+                DisclosureGroup(String(localized: "result.section.original")) {
                     Text(extractedText)
                         .font(JTheme.caption())
                         .foregroundStyle(.secondary)
@@ -140,12 +140,12 @@ struct ResultView: View {
 
             // 공유 버튼
             ShareLink(item: shareText(result: result)) {
-                Label("공유하기", systemImage: "square.and.arrow.up")
+                Label(String(localized: "result.action.share"), systemImage: "square.and.arrow.up")
             }
             .buttonStyle(JPrimaryButtonStyle())
 
             if saved {
-                Label("저장됨", systemImage: "checkmark.circle.fill")
+                Label(String(localized: "result.saved"), systemImage: "checkmark.circle.fill")
                     .font(JTheme.caption().weight(.medium))
                     .foregroundStyle(JTheme.accent)
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -159,10 +159,10 @@ struct ResultView: View {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48))
                 .foregroundStyle(.orange)
-            Text(errorMessage ?? "오류가 발생했습니다")
+            Text(errorMessage ?? String(localized: "common.error.fallback"))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
-            Button("다시 시도") {
+            Button(String(localized: "result.error.retry")) {
                 Task { await process() }
             }
             .buttonStyle(.borderedProminent)

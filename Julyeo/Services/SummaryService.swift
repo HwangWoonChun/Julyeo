@@ -60,7 +60,7 @@ actor SummaryService {
             .filter { !$0.isEmpty }
 
         return SummaryResult(
-            title: title.isEmpty ? "요약 \(Date().formatted(date: .abbreviated, time: .omitted))" : title,
+            title: title.isEmpty ? "\(String(localized: "result.default.title")) \(Date().formatted(date: .abbreviated, time: .omitted))" : title,
             summary: summary,
             keyPoints: keyPoints
         )
@@ -87,10 +87,10 @@ enum SummaryError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .emptyText: return "요약할 내용이 없습니다."
-        case .modelUnavailable: return "AI 모델을 사용할 수 없습니다."
-        case .appleIntelligenceDisabled: return "Apple Intelligence가 비활성화되어 있습니다."
-        case .deviceNotEligible: return "이 기기는 Apple Intelligence를 지원하지 않습니다."
+        case .emptyText: return String(localized: "error.summary.empty")
+        case .modelUnavailable: return String(localized: "error.summary.unavailable")
+        case .appleIntelligenceDisabled: return String(localized: "error.summary.disabled")
+        case .deviceNotEligible: return String(localized: "error.summary.ineligible")
         }
     }
 }

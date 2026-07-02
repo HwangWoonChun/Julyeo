@@ -10,9 +10,9 @@ struct HistoryView: View {
         Group {
             if records.isEmpty {
                 ContentUnavailableView(
-                    "기록 없음",
+                    String(localized: "history.empty.title"),
                     systemImage: "clock",
-                    description: Text("요약한 내용이 여기 저장돼요")
+                    description: Text(String(localized: "history.empty.description"))
                 )
             } else {
                 List {
@@ -28,7 +28,7 @@ struct HistoryView: View {
                 .scrollContentBackground(.hidden)
             }
         }
-        .navigationTitle("기록")
+        .navigationTitle(String(localized: "history.title"))
         .toolbar {
             EditButton()
         }
@@ -84,7 +84,7 @@ struct HistoryDetailView: View {
 
                     JCard {
                         VStack(alignment: .leading, spacing: JTheme.spaceXS) {
-                            JSectionLabel(icon: "text.alignleft", text: "요약")
+                            JSectionLabel(icon: "text.alignleft", text: String(localized: "result.section.summary"))
                             Text(record.summary)
                                 .font(JTheme.body())
                         }
@@ -93,7 +93,7 @@ struct HistoryDetailView: View {
                     if !record.keyPoints.isEmpty {
                         JCard {
                             VStack(alignment: .leading, spacing: JTheme.spaceXS) {
-                                JSectionLabel(icon: "list.bullet", text: "핵심 포인트")
+                                JSectionLabel(icon: "list.bullet", text: String(localized: "result.section.keypoints"))
                                 ForEach(record.keyPoints, id: \.self) { point in
                                     HStack(alignment: .top, spacing: 8) {
                                         Text("•").foregroundStyle(JTheme.accent)
@@ -105,7 +105,7 @@ struct HistoryDetailView: View {
                     }
 
                     JCard {
-                        DisclosureGroup("원문 보기") {
+                        DisclosureGroup(String(localized: "result.section.original")) {
                             Text(record.originalText)
                                 .font(JTheme.caption())
                                 .foregroundStyle(.secondary)

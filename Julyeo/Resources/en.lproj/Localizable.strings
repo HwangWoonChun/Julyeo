@@ -1,0 +1,65 @@
+// MARK: - HomeView
+"app.tagline" = "Record or take a photo.\nAI will extract the key points for you.";
+"input.record" = "Summarize Recording";
+"input.record.subtitle" = "Record meetings, lectures, or conversations";
+"input.camera" = "Summarize Photo";
+"input.camera.subtitle" = "Capture documents, whiteboards, or books";
+"input.audiofile" = "Summarize Audio File";
+"input.audiofile.subtitle" = "Import m4a, mp3, or wav files";
+"input.gallery" = "Choose from Gallery";
+"input.gallery.subtitle" = "Pick a saved photo";
+"nav.history" = "History";
+
+// MARK: - RecordView
+"record.title" = "Record";
+"record.tap.start" = "Tap to start recording";
+"record.tap.stop" = "Tap to stop";
+"record.action.summarize" = "Summarize";
+"record.error.session" = "Failed to set up audio session";
+"record.error.start" = "Failed to start recording";
+"record.permission.title" = "Microphone Access Required";
+"record.permission.settings" = "Open Settings";
+
+// MARK: - ResultView
+"result.title" = "Summary";
+"result.loading.extracting.image" = "Recognizing text...";
+"result.loading.extracting.audio" = "Preparing text...";
+"result.loading.summarizing" = "AI is summarizing...";
+"result.loading.wait" = "Please wait a moment";
+"result.loading.processing" = "Processing with Foundation Models...";
+"result.section.summary" = "Summary";
+"result.section.keypoints" = "Key Points";
+"result.section.original" = "View Original";
+"result.action.share" = "Share";
+"result.action.save" = "Save";
+"result.saved" = "Saved";
+"result.error.title" = "Summary Failed";
+"result.error.retry" = "Try Again";
+"result.error.fallback" = "An error occurred. Please try again.";
+"result.default.title" = "Summary";
+
+// MARK: - HistoryView
+"history.title" = "History";
+"history.empty.title" = "No History";
+"history.empty.description" = "Your summaries will appear here";
+
+// MARK: - AudioFile
+"audio.transcribing" = "Transcribing audio...";
+"audio.error.title" = "Transcription Failed";
+"audio.error.fallback" = "Could not transcribe the audio file.";
+
+// MARK: - Common
+"common.close" = "Close";
+"common.cancel" = "Cancel";
+"common.confirm" = "OK";
+"common.error.fallback" = "An error occurred";
+"common.settings" = "Open Settings";
+
+// MARK: - Errors
+"error.ocr.invalid" = "Unable to process the image.";
+"error.ocr.notext" = "No text found in the image.";
+"error.speech.permission" = "Speech recognition permission is required.";
+"error.summary.empty" = "Nothing to summarize.";
+"error.summary.unavailable" = "AI model is unavailable.";
+"error.summary.disabled" = "Apple Intelligence is not enabled.";
+"error.summary.ineligible" = "This device does not support Apple Intelligence.";

@@ -1,0 +1,65 @@
+// MARK: - HomeView
+"app.tagline" = "녹음하거나 사진을 찍으면\nAI가 핵심만 정리해드려요";
+"input.record" = "녹음으로 요약";
+"input.record.subtitle" = "회의, 강의, 대화를 녹음하세요";
+"input.camera" = "사진으로 요약";
+"input.camera.subtitle" = "문서, 칠판, 책을 촬영하세요";
+"input.audiofile" = "음성 파일로 요약";
+"input.audiofile.subtitle" = "m4a, mp3, wav 파일을 불러오세요";
+"input.gallery" = "갤러리에서 선택";
+"input.gallery.subtitle" = "저장된 사진을 불러오세요";
+"nav.history" = "기록 보기";
+
+// MARK: - RecordView
+"record.title" = "녹음";
+"record.tap.start" = "탭하여 녹음 시작";
+"record.tap.stop" = "탭하여 중지";
+"record.action.summarize" = "요약하기";
+"record.error.session" = "오디오 세션 설정 실패";
+"record.error.start" = "녹음 시작 실패";
+"record.permission.title" = "마이크 권한 필요";
+"record.permission.settings" = "설정으로 이동";
+
+// MARK: - ResultView
+"result.title" = "요약 결과";
+"result.loading.extracting.image" = "텍스트 인식 중...";
+"result.loading.extracting.audio" = "텍스트 준비 중...";
+"result.loading.summarizing" = "AI가 요약하는 중...";
+"result.loading.wait" = "잠시만 기다려주세요";
+"result.loading.processing" = "Foundation Models 처리 중...";
+"result.section.summary" = "요약";
+"result.section.keypoints" = "핵심 포인트";
+"result.section.original" = "원문 보기";
+"result.action.share" = "공유하기";
+"result.action.save" = "저장";
+"result.saved" = "저장됨";
+"result.error.title" = "요약 실패";
+"result.error.retry" = "다시 시도";
+"result.error.fallback" = "오류가 발생했습니다. 다시 시도해주세요.";
+"result.default.title" = "요약";
+
+// MARK: - HistoryView
+"history.title" = "기록";
+"history.empty.title" = "기록 없음";
+"history.empty.description" = "요약한 내용이 여기 저장돼요";
+
+// MARK: - AudioFile
+"audio.transcribing" = "음성 변환 중...";
+"audio.error.title" = "변환 실패";
+"audio.error.fallback" = "음성 파일을 변환하지 못했습니다.";
+
+// MARK: - Common
+"common.close" = "닫기";
+"common.cancel" = "취소";
+"common.confirm" = "확인";
+"common.error.fallback" = "오류가 발생했습니다";
+"common.settings" = "설정으로 이동";
+
+// MARK: - Errors
+"error.ocr.invalid" = "이미지를 처리할 수 없습니다.";
+"error.ocr.notext" = "텍스트를 찾을 수 없습니다.";
+"error.speech.permission" = "음성 인식 권한이 필요합니다.";
+"error.summary.empty" = "요약할 내용이 없습니다.";
+"error.summary.unavailable" = "AI 모델을 사용할 수 없습니다.";
+"error.summary.disabled" = "Apple Intelligence가 비활성화되어 있습니다.";
+"error.summary.ineligible" = "이 기기는 Apple Intelligence를 지원하지 않습니다.";

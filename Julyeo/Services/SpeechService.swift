@@ -19,7 +19,7 @@ class SpeechService: NSObject, ObservableObject {
 
 enum TranscribeError: LocalizedError {
     case permissionDenied
-    var errorDescription: String? { "음성 인식 권한이 필요합니다." }
+    var errorDescription: String? { String(localized: "error.speech.permission") }
 }
 
 @MainActor
@@ -43,7 +43,7 @@ extension SpeechService {
             try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
-            self.error = "오디오 세션 설정 실패"
+            self.error = String(localized: "record.error.session")
             return
         }
 
@@ -74,7 +74,7 @@ extension SpeechService {
             try audioEngine.start()
             isRecording = true
         } catch {
-            self.error = "녹음 시작 실패"
+            self.error = String(localized: "record.error.start")
         }
     }
 

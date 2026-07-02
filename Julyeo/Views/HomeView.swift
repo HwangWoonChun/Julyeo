@@ -21,99 +21,86 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                JTheme.background.ignoresSafeArea()
-
-                VStack(spacing: 0) {
-                    // 헤더
-                    VStack(spacing: 8) {
-                        Text("줄여줘")
-                            .font(JTheme.title())
-                        Text("녹음하거나 사진을 찍으면\nAI가 핵심만 정리해드려요")
-                            .font(JTheme.body())
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.top, JTheme.spaceXL)
-                    .padding(.bottom, JTheme.spaceL)
-
-                    // 입력 옵션
-                    VStack(spacing: JTheme.spaceS) {
-                        JOptionRow(
-                            icon: "mic.fill",
-                            title: "녹음으로 요약",
-                            subtitle: "회의, 강의, 대화를 녹음하세요"
-                        ) {
-                            showRecordView = true
-                        }
-
-                        JOptionRow(
-                            icon: "camera.fill",
-                            title: "사진으로 요약",
-                            subtitle: "문서, 칠판, 책을 촬영하세요"
-                        ) {
-                            showCamera = true
-                        }
-
-                        JOptionRow(
-                            icon: "waveform",
-                            title: "음성 파일로 요약",
-                            subtitle: "m4a, mp3, wav 파일을 불러오세요"
-                        ) {
-                            showFilePicker = true
-                        }
-
-                        PhotosPicker(selection: $selectedPhoto, matching: .images) {
-                            HStack(spacing: JTheme.spaceS) {
-                                JIconBadge(systemName: "photo.on.rectangle", size: 44)
-                                VStack(alignment: .leading, spacing: 3) {
-                                    Text("갤러리에서 선택")
-                                        .font(JTheme.body().weight(.medium))
-                                        .foregroundStyle(.primary)
-                                    Text("저장된 사진을 불러오세요")
-                                        .font(JTheme.caption())
-                                        .foregroundStyle(.secondary)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 13, weight: .semibold))
-                                    .foregroundStyle(.tertiary)
-                            }
-                            .padding(.vertical, JTheme.spaceM)
-                            .padding(.horizontal, JTheme.spaceM)
-                            .background(JTheme.surface, in: RoundedRectangle(cornerRadius: JTheme.radiusM, style: .continuous))
-                        }
-                        .onChange(of: selectedPhoto) { _, newValue in
-                            Task {
-                                if let data = try? await newValue?.loadTransferable(type: Data.self),
-                                   let image = UIImage(data: data) {
-                                    pendingImage = image
-                                    showResultView = true
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal, JTheme.spaceM)
-
-                    Spacer()
-
-                    // 히스토리 버튼
-                    NavigationLink(destination: HistoryView()) {
-                        Label("기록 보기", systemImage: "clock")
-                            .font(JTheme.caption().weight(.medium))
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.bottom, JTheme.spaceL)
+            VStack(spacing: 0) {
+                VStack(spacing: 6) {
+                    Text("줄여줘")
+                        .font(.system(size: 34, weight: .bold))
+                    Text(String(localized: "app.tagline"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
                 }
+                .padding(.top, 48)
+                .padding(.bottom, 48)
+
+                VStack(spacing: 16) {
+                    InputButton(
+                        icon: "mic.fill",
+                        title: String(localized: "input.record"),
+                        subtitle: String(localized: "input.record.subtitle"),
+                        color: .red
+                    ) { showRecordView = true }
+
+                    InputButton(
+                        icon: "camera.fill",
+                        title: String(localized: "input.camera"),
+                        subtitle: String(localized: "input.camera.subtitle"),
+                        color: .blue
+                    ) { showCamera = true }
+
+                    InputButton(
+                        icon: "waveform",
+                        title: String(localized: "input.audiofile"),
+                        subtitle: String(localized: "input.audiofile.subtitle"),
+                        color: .purple
+                    ) { showFilePicker = true }
+
+                    PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                        HStack {
+                            Image(systemName: "photo.on.rectangle")
+                                .font(.title3)
+                                .foregroundStyle(.green)
+                                .frame(width: 44)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(String(localized: "input.gallery"))
+                                    .font(.headline)
+                                    .foregroundStyle(.primary)
+                                Text(String(localized: "input.gallery.subtitle"))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.tertiary)
+                        }
+                        .padding()
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+                    }
+                    .onChange(of: selectedPhoto) { _, newValue in
+                        Task {
+                            if let data = try? await newValue?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: data) {
+                                pendingImage = image
+                                showResultView = true
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 20)
+
+                Spacer()
+
+                NavigationLink(destination: HistoryView()) {
+                    Label(String(localized: "nav.history"), systemImage: "clock")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.bottom, 32)
             }
             .navigationBarHidden(true)
-            .fullScreenCover(isPresented: $showRecordView) {
-                RecordView()
-            }
+            .fullScreenCover(isPresented: $showRecordView) { RecordView() }
             .fullScreenCover(isPresented: $showCamera, onDismiss: {
-                if pendingImage != nil {
-                    showResultView = true
-                }
+                if pendingImage != nil { showResultView = true }
             }) {
                 CameraPickerView(image: $pendingImage, isPresented: $showCamera)
                     .ignoresSafeArea()
@@ -132,33 +119,32 @@ struct HomeView: View {
                 allowedContentTypes: [.audio, UTType("public.mp3")!, .mpeg4Audio, UTType("com.microsoft.waveform-audio")!].compactMap { $0 }
             ) { result in
                 switch result {
-                case .success(let url):
-                    Task { await transcribeAudioFile(url: url) }
+                case .success(let url): Task { await transcribeAudioFile(url: url) }
                 case .failure(let error):
                     transcribeError = error.localizedDescription
                     showTranscribeError = true
                 }
             }
-            .alert("변환 실패", isPresented: $showTranscribeError) {
-                Button("확인", role: .cancel) {}
+            .alert(String(localized: "audio.error.title"), isPresented: $showTranscribeError) {
+                Button(String(localized: "common.confirm"), role: .cancel) {}
             } message: {
-                Text(transcribeError ?? "음성 파일을 변환하지 못했습니다.")
+                Text(transcribeError ?? String(localized: "audio.error.fallback"))
             }
             .overlay {
                 if isTranscribing {
                     ZStack {
                         Color.black.opacity(0.4).ignoresSafeArea()
-                        VStack(spacing: JTheme.spaceS) {
+                        VStack(spacing: 16) {
                             ProgressView().scaleEffect(1.5).tint(.white)
-                            Text("음성 변환 중...").foregroundStyle(.white).font(JTheme.headline())
+                            Text(String(localized: "audio.transcribing"))
+                                .foregroundStyle(.white).font(.headline)
                         }
-                        .padding(JTheme.spaceL)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: JTheme.radiusL))
+                        .padding(32)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
                     }
                 }
             }
         }
-        .tint(JTheme.accent)
     }
 
     private func transcribeAudioFile(url: URL) async {
@@ -170,11 +156,37 @@ struct HomeView: View {
 
         do {
             audioTranscript = try await speechService.transcribeFile(url: url)
-            print("[HomeView] 파일 변환 완료: \(audioTranscript.count)자")
             showAudioResult = true
         } catch {
             transcribeError = error.localizedDescription
             showTranscribeError = true
+        }
+    }
+}
+
+struct InputButton: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let color: Color
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundStyle(color)
+                    .frame(width: 44)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title).font(.headline).foregroundStyle(.primary)
+                    Text(subtitle).font(.caption).foregroundStyle(.secondary)
+                }
+                Spacer()
+                Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+            }
+            .padding()
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
         }
     }
 }

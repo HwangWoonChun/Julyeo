@@ -35,7 +35,7 @@ struct RecordView: View {
                         Task { await toggleRecording() }
                     }
 
-                    Text(speechService.isRecording ? "탭하여 중지" : "탭하여 녹음 시작")
+                    Text(speechService.isRecording ? String(localized: "record.tap.stop") : String(localized: "record.tap.start"))
                         .font(JTheme.body())
                         .foregroundStyle(.secondary)
 
@@ -56,21 +56,21 @@ struct RecordView: View {
                 }
                 .padding(.bottom, JTheme.spaceL)
             }
-            .navigationTitle("녹음")
+            .navigationTitle(String(localized: "record.title"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $showResult) {
                 ResultView(inputType: .audio, transcript: speechService.transcript)
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("닫기") {
+                    Button(String(localized: "common.close")) {
                         speechService.stopRecording()
                         dismiss()
                     }
                 }
                 if !speechService.transcript.isEmpty {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("요약하기") {
+                        Button(String(localized: "record.action.summarize")) {
                             speechService.stopRecording()
                             showResult = true
                         }
@@ -79,13 +79,13 @@ struct RecordView: View {
                     }
                 }
             }
-            .alert("마이크 권한 필요", isPresented: $permissionDenied) {
-                Button("설정으로 이동") {
+            .alert(String(localized: "record.permission.title"), isPresented: $permissionDenied) {
+                Button(String(localized: "record.permission.settings")) {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
                         UIApplication.shared.open(url)
                     }
                 }
-                Button("취소", role: .cancel) {}
+                Button(String(localized: "common.cancel"), role: .cancel) {}
             }
             .onChange(of: speechService.isRecording) { _, isRecording in
                 print("[RecordView] isRecording 변경: \(isRecording), transcript: \(speechService.transcript.count)자")

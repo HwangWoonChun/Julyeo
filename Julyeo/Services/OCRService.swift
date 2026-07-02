@@ -46,8 +46,8 @@ enum OCRError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidImage: return "이미지를 처리할 수 없습니다."
-        case .noTextFound: return "텍스트를 찾을 수 없습니다."
+        case .invalidImage: return String(localized: "error.ocr.invalid")
+        case .noTextFound: return String(localized: "error.ocr.notext")
         }
     }
 }
